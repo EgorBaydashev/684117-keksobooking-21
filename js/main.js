@@ -184,7 +184,7 @@ const fieldRoomNumber = adForm.querySelector('#room_number');
 const fieldCapacity = adForm.querySelector('#capacity');
 
 const setDefaultAddress = function () {
-  let xPosition = parseInt(mapPinMain.style.left, 10) + Math.round(mapPinMain.PIN_X_MAX / 2);
+  let xPosition = parseInt(mapPinMain.style.left, 10) + Math.round(mapPinMain.offsetWidth / 2);
   let yPosition = parseInt(mapPinMain.style.top, 10) + Math.round(mapPinMain.offsetHeight / 2);
 
   fieldAddress.value = `${xPosition}, ${yPosition}`;
