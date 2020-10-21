@@ -232,6 +232,8 @@ const deactivateMap = function () {
 const activateMap = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
+  mapPinMain.removeEventListener('mousedown', pinClickHandler);
+  mapPinMain.removeEventListener('keydown', pinEnterPressHandler);
   enableItems(formElements);
   setCustomAddress();
   renderPins();
