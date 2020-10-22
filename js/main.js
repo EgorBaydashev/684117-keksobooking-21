@@ -78,6 +78,16 @@ const renderPin = function (ad) {
   pinElement.querySelector('img').src = ad.author.avatar;
   pinElement.querySelector('img').alt = ad.offer.title;
 
+  pinElement.addEventListener('click', function () {
+    pinOpenHandler(ad);
+  });
+
+  pinElement.addEventListener('keydown', function (evt) {
+    if (evt.key === 'Enter') {
+      pinOpenHandler(ad);
+    }
+  });
+
   return pinElement;
 };
 
@@ -96,19 +106,22 @@ getData();
 
 const map = document.querySelector('.map');
 
-/*
 const typesOffers = {
   flat: {
-    ru: 'Квартира'
+    ru: 'Квартира',
+    minPrice: '1000'
   },
   bungalow: {
-    ru: 'Бунгало'
+    ru: 'Бунгало',
+    minPrice: '0'
   },
   house: {
-    ru: 'Дом'
+    ru: 'Дом',
+    minPrice: '5000'
   },
   palace: {
-    ru: 'Дворец'
+    ru: 'Дворец',
+    minPrice: '10000'
   }
 };
 
@@ -130,8 +143,28 @@ const getNoun = function (number, one, two, many) {
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
+const cardRemoveHandler = function () {
+  let card = map.querySelector('.map__card');
+
+  if (card) {
+    let popupClose = card.querySelector('.popup__close');
+
+    card.remove();
+
+    popupClose.removeEventListener('click', cardRemoveHandler);
+    document.removeEventListener('keydown', cardEscPressHandler);
+  }
+};
+
+const cardEscPressHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    cardRemoveHandler();
+  }
+};
+
 const getCard = function (card) {
   let cardElement = cardTemplate.cloneNode(true);
+  let popupClose = cardElement.querySelector('.popup__close');
 
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
@@ -169,12 +202,18 @@ const getCard = function (card) {
 
   cardElement.querySelector('.popup__avatar').setAttribute('src', card.author.avatar);
 
+  popupClose.addEventListener('click', cardRemoveHandler);
+  document.addEventListener('keydown', cardEscPressHandler);
+
   return cardElement;
 };
 
 const filtersContainer = document.querySelector('.map__filters-container');
 map.insertBefore(getCard(resultData[0]), filtersContainer);
-*/
+
+const renderCard = function (ad) {
+  filtersContainer.insertAdjacentElement('beforebegin', getCard(ad));
+};
 
 const mapPinMain = document.querySelector('.map__pin--main');
 const formElements = document.querySelectorAll('.map__filter, fieldset');
@@ -182,6 +221,10 @@ const adForm = document.querySelector('.ad-form');
 const fieldAddress = adForm.querySelector('#address');
 const fieldRoomNumber = adForm.querySelector('#room_number');
 const fieldCapacity = adForm.querySelector('#capacity');
+const fieldType = adForm.querySelector('#type');
+const fieldPrice = adForm.querySelector('#price');
+const fieldTimeIn = adForm.querySelector('#timein');
+const fieldTimeOut = adForm.querySelector('#timeout');
 
 const setDefaultAddress = function () {
   let xPosition = parseInt(mapPinMain.style.left, 10) + Math.round(mapPinMain.offsetWidth / 2);
@@ -209,7 +252,7 @@ const enableItems = function (items) {
   }
 };
 
-const syncCapacityRoomNumbers = function () {
+const validateRooms = function () {
   if (fieldRoomNumber.value === '1' && fieldCapacity.value !== '1') {
     fieldCapacity.setCustomValidity('1 комната для 1-го гостя');
   } else if (fieldRoomNumber.value === '2' && (fieldCapacity.value > 2 || fieldCapacity.value === '0')) {
@@ -223,6 +266,13 @@ const syncCapacityRoomNumbers = function () {
   }
 };
 
+const validateMinPrice = function () {
+  let fieldTypeValue = fieldType.value;
+
+  fieldPrice.placeholder = typesOffers[fieldTypeValue].minPrice;
+  fieldPrice.min = typesOffers[fieldTypeValue].minPrice;
+};
+
 const deactivateMap = function () {
   map.classList.add('map--faded');
   disableItems(formElements);
@@ -232,12 +282,25 @@ const deactivateMap = function () {
 const activateMap = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
+  adForm.addEventListener('change', fieldRoomNumberChangeHandler);
+  adForm.addEventListener('change', fieldTypeChangeHandler);
+  fieldTimeIn.addEventListener('change', fieldTimeOutChangeHandler);
+  fieldTimeOut.addEventListener('change', fieldTimeInChangeHandler);
   mapPinMain.removeEventListener('mousedown', pinClickHandler);
   mapPinMain.removeEventListener('keydown', pinEnterPressHandler);
   enableItems(formElements);
   setCustomAddress();
+  validateMinPrice();
+  validateRooms();
   renderPins();
-  adForm.addEventListener('change', syncCapacityRoomNumbers);
+};
+
+const fieldTypeChangeHandler = function () {
+  validateMinPrice();
+};
+
+const fieldRoomNumberChangeHandler = function () {
+  validateRooms();
 };
 
 const pinClickHandler = function (evt) {
@@ -252,7 +315,22 @@ const pinEnterPressHandler = function (evt) {
   }
 };
 
+const fieldTimeInChangeHandler = function () {
+  fieldTimeIn.value = fieldTimeOut.value;
+};
+
+const fieldTimeOutChangeHandler = function () {
+  fieldTimeOut.value = fieldTimeIn.value;
+};
+
+const pinOpenHandler = function (ad) {
+  cardRemoveHandler();
+  renderCard(ad);
+};
+
+deactivateMap();
+
 mapPinMain.addEventListener('mousedown', pinClickHandler);
 mapPinMain.addEventListener('keydown', pinEnterPressHandler);
 
-deactivateMap();
+cardRemoveHandler();
