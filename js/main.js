@@ -143,6 +143,25 @@ const getNoun = function (number, one, two, many) {
 
 const cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
+const cardRemoveHandler = function () {
+  let card = map.querySelector('.map__card');
+
+  if (card) {
+    let popupClose = card.querySelector('.popup__close');
+
+    card.remove();
+
+    popupClose.removeEventListener('click', cardRemoveHandler);
+    document.removeEventListener('keydown', cardEscPressHandler);
+  }
+};
+
+const cardEscPressHandler = function (evt) {
+  if (evt.key === 'Escape') {
+    cardRemoveHandler();
+  }
+};
+
 const getCard = function (card) {
   let cardElement = cardTemplate.cloneNode(true);
   let popupClose = cardElement.querySelector('.popup__close');
@@ -304,28 +323,9 @@ const fieldTimeOutChangeHandler = function () {
   fieldTimeOut.value = fieldTimeIn.value;
 };
 
-const cardEscPressHandler = function (evt) {
-  if (evt.key === 'Enter') {
-    cardRemoveHandler();
-  }
-};
-
 const pinOpenHandler = function (ad) {
   cardRemoveHandler();
   renderCard(ad);
-};
-
-const cardRemoveHandler = function () {
-  let card = map.querySelector('.map__card');
-
-  if (card) {
-    let popupClose = card.querySelector('.popup__close');
-
-    card.remove();
-
-    popupClose.removeEventListener('click', cardRemoveHandler);
-    document.removeEventListener('keydown', cardEscPressHandler);
-  }
 };
 
 deactivateMap();
