@@ -54,6 +54,10 @@
   const resultData = getData();
 
   window.data = {
-    resultData
+    resultData,
+    PIN_X_MIN,
+    PIN_X_MAX,
+    PIN_Y_MIN,
+    PIN_Y_MAX
   };
 })();

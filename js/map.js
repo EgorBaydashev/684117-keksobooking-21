@@ -16,7 +16,7 @@
     window.form.adForm.addEventListener('change', window.form.fieldTypeChangeHandler);
     window.form.fieldTimeIn.addEventListener('change', window.form.fieldTimeOutChangeHandler);
     window.form.fieldTimeOut.addEventListener('change', window.form.fieldTimeInChangeHandler);
-    window.form.mapPinMain.removeEventListener('mousedown', pinClickHandler);
+    // window.form.mapPinMain.removeEventListener('mousedown', pinClickHandler);
     window.form.mapPinMain.removeEventListener('keydown', pinEnterPressHandler);
     window.main.enableItems(formElements);
     window.form.setAddress();
@@ -27,7 +27,13 @@
 
   const pinClickHandler = function (evt) {
     if (evt.button === 0) {
-      activateMap();
+      evt.preventDefault();
+
+      if (window.main.map.classList.contains('map--faded')) {
+        activateMap();
+      }
+
+      window.move.moveMainPin(evt);
     }
   };
 
