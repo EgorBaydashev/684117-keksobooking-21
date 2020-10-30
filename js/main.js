@@ -9,16 +9,6 @@
     return arr[getRandomNumber(0, arr.length - 1)];
   };
 
-  const getArrRandomLength = function (arr) {
-    let result = [];
-    let j = getRandomNumber(1, arr.length);
-    for (let i = 0; i < j; i++) {
-      let element = arr[i];
-      result.push(element);
-    }
-    return result;
-  };
-
   const map = document.querySelector('.map');
 
   const getNoun = function (number, one, two, many) {
@@ -52,7 +42,6 @@
   window.main = {
     getRandomNumber,
     getRandomValueFromArray,
-    getArrRandomLength,
     map,
     disableItems,
     enableItems,
