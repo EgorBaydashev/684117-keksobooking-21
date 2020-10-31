@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  const ADS_QUANTITY = 8;
   const PIN_X_OFFSET = 50;
   const PIN_Y_OFFSET = 70;
 
@@ -28,10 +29,11 @@
 
   const similarPinList = document.querySelector('.map__pins');
 
-  const renderPins = function () {
+  const successHandler = function (pins) {
     let fragment = document.createDocumentFragment();
-    for (let i = 0; i < window.data.resultData.length; i++) {
-      fragment.appendChild(renderPin(window.data.resultData[i]));
+    for (let i = 0; i < ADS_QUANTITY; i++) {
+      let pin = window.main.getRandomValueFromArray(pins);
+      fragment.appendChild(renderPin(pin));
     }
     similarPinList.appendChild(fragment);
   };
@@ -42,7 +44,7 @@
   };
 
   window.pin = {
-    renderPins,
+    successHandler,
     PIN_X_OFFSET,
     PIN_Y_OFFSET
   };

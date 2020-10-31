@@ -16,11 +16,10 @@
     window.form.adForm.addEventListener('change', window.form.fieldTypeChangeHandler);
     window.form.fieldTimeIn.addEventListener('change', window.form.fieldTimeOutChangeHandler);
     window.form.fieldTimeOut.addEventListener('change', window.form.fieldTimeInChangeHandler);
-    // window.form.mapPinMain.removeEventListener('mousedown', pinClickHandler);
     window.form.mapPinMain.removeEventListener('keydown', pinEnterPressHandler);
     window.main.enableItems(formElements);
     window.form.setAddress();
-    window.pin.renderPins();
+    window.load.load(window.pin.successHandler, window.load.errorHandler);
     window.form.validateRooms();
     window.form.validateMinPrice();
   };

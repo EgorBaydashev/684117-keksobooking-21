@@ -10,10 +10,10 @@
     const mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      let minСoordsX = window.data.PIN_X_MIN - window.pin.PIN_X_OFFSET / 2;
-      let maxСoordsX = window.data.PIN_X_MAX - window.pin.PIN_X_OFFSET / 2;
-      let minСoordsY = window.data.PIN_Y_MIN - window.pin.PIN_Y_OFFSET;
-      let maxСoordsY = window.data.PIN_Y_MAX - window.pin.PIN_Y_OFFSET;
+      let minCoordsX = window.data.PIN_X_MIN - window.pin.PIN_X_OFFSET / 2;
+      let maxCoordsX = window.data.PIN_X_MAX - window.pin.PIN_X_OFFSET / 2;
+      let minCoordsY = window.data.PIN_Y_MIN - window.pin.PIN_Y_OFFSET;
+      let maxCoordsY = window.data.PIN_Y_MAX - window.pin.PIN_Y_OFFSET;
 
       let shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -28,16 +28,16 @@
       window.form.mapPinMain.style.top = `${(window.form.mapPinMain.offsetTop - shift.y)}px`;
       window.form.mapPinMain.style.left = `${(window.form.mapPinMain.offsetLeft - shift.x)}px`;
 
-      if (window.form.mapPinMain.offsetLeft < minСoordsX) {
-        window.form.mapPinMain.style.left = `${minСoordsX}px`;
-      } else if (window.form.mapPinMain.offsetLeft > maxСoordsX) {
-        window.form.mapPinMain.style.left = `${maxСoordsX}px`;
+      if (window.form.mapPinMain.offsetLeft < minCoordsX) {
+        window.form.mapPinMain.style.left = `${minCoordsX}px`;
+      } else if (window.form.mapPinMain.offsetLeft > maxCoordsX) {
+        window.form.mapPinMain.style.left = `${maxCoordsX}px`;
       }
 
-      if (window.form.mapPinMain.offsetTop < minСoordsY) {
-        window.form.mapPinMain.style.top = `${minСoordsY}px`;
-      } else if (window.form.mapPinMain.offsetTop > maxСoordsY) {
-        window.form.mapPinMain.style.top = `${maxСoordsY}px`;
+      if (window.form.mapPinMain.offsetTop < minCoordsY) {
+        window.form.mapPinMain.style.top = `${minCoordsY}px`;
+      } else if (window.form.mapPinMain.offsetTop > maxCoordsY) {
+        window.form.mapPinMain.style.top = `${maxCoordsY}px`;
       }
 
       window.form.setAddress();
