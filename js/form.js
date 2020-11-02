@@ -61,6 +61,42 @@
     fieldTimeOut.value = fieldTimeIn.value;
   };
 
+  const removePins = function () {
+    let pins = window.main.map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
+
+  const formElements = document.querySelectorAll('.map__filter, fieldset');
+  const mapFilters = window.main.map.querySelector('.map__filters');
+  const adFormReset = adForm.querySelector('.ad-form__reset');
+
+  const deactivateMap = function () {
+    window.main.map.classList.add('map--faded');
+    window.main.disableItems(formElements);
+    setAddress(true);
+    adForm.removeEventListener('submit', submitFormHandler);
+    adFormReset.removeEventListener('click', resetPage);
+  };
+
+  const resetPage = function () {
+    adForm.reset();
+    mapFilters.reset();
+    window.card.cardRemoveHandler();
+    deactivateMap();
+    removePins();
+  };
+
+  const submitFormHandler = function (evt) {
+    evt.preventDefault();
+
+    window.backend.load(window.message.submitSuccessHandler, window.message.errorHandler, new FormData(adForm));
+
+    resetPage();
+  };
+
   window.form = {
     mapPinMain,
     adForm,
@@ -72,6 +108,11 @@
     fieldTypeChangeHandler,
     fieldRoomNumberChangeHandler,
     fieldTimeInChangeHandler,
-    fieldTimeOutChangeHandler
+    fieldTimeOutChangeHandler,
+    submitFormHandler,
+    formElements,
+    adFormReset,
+    deactivateMap,
+    resetPage
   };
 })();
