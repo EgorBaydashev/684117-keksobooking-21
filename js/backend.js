@@ -2,6 +2,7 @@
 
 (function () {
   const URL_LOAD = 'https://21.javascript.pages.academy/keksobooking/data';
+  const URL_UPLOAD = 'https://21.javascript.pages.academy/keksobooking';
   const TIMEOUT_IN_MS = 10000;
 
   const statusCode = {
@@ -10,7 +11,7 @@
     NOT_FOUND: 404
   };
 
-  const load = function (onSuccess, onError) {
+  const load = function (onSuccess, onError, data) {
     const xhr = new XMLHttpRequest();
 
     xhr.responseType = 'json';
@@ -43,21 +44,16 @@
       onError(`Запрос не успел выполниться за ${xhr.timeout}мс`);
     });
 
-    xhr.open('GET', URL_LOAD);
-    xhr.send();
+    if (data) {
+      xhr.open('POST', URL_UPLOAD);
+      xhr.send(data);
+    } else {
+      xhr.open('GET', URL_LOAD);
+      xhr.send();
+    }
   };
 
-  const errorHandler = function (errorMessage) {
-    let errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    let errorElement = errorTemplate.cloneNode(true);
-
-    errorElement.querySelector('.error__message').textContent = errorMessage;
-
-    document.body.insertAdjacentElement('afterbegin', errorElement);
-  };
-
-  window.load = {
-    load,
-    errorHandler
+  window.backend = {
+    load
   };
 })();

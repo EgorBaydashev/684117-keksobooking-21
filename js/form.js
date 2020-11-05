@@ -1,8 +1,14 @@
 'use strict';
 
 (function () {
+  const PIN_MAIN_X = 570;
+  const PIN_MAIN_Y = 375;
+
   const mapPinMain = document.querySelector('.map__pin--main');
   const adForm = document.querySelector('.ad-form');
+  const formElements = document.querySelectorAll('.map__filter, fieldset');
+  const mapFilters = window.main.map.querySelector('.map__filters');
+  const adFormReset = adForm.querySelector('.ad-form__reset');
   const fieldAddress = adForm.querySelector('#address');
   const fieldRoomNumber = adForm.querySelector('#room_number');
   const fieldCapacity = adForm.querySelector('#capacity');
@@ -61,6 +67,46 @@
     fieldTimeOut.value = fieldTimeIn.value;
   };
 
+  const removePins = function () {
+    let pins = window.main.map.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (pin) {
+      pin.remove();
+    });
+  };
+
+  const deactivateMap = function () {
+    window.main.map.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    window.main.disableItems(formElements);
+    setPinMainDefault();
+    adForm.removeEventListener('submit', submitFormHandler);
+    adFormReset.removeEventListener('click', resetPage);
+  };
+
+  const setPinMainDefault = function () {
+    mapPinMain.style.left = `${PIN_MAIN_X}px`;
+    mapPinMain.style.top = `${PIN_MAIN_Y}px`;
+
+    setAddress(true);
+  };
+
+  const resetPage = function () {
+    adForm.reset();
+    mapFilters.reset();
+    window.card.cardRemoveHandler();
+    deactivateMap();
+    removePins();
+  };
+
+  const submitFormHandler = function (evt) {
+    evt.preventDefault();
+
+    window.backend.load(window.message.submitSuccessHandler, window.message.errorHandler, new FormData(adForm));
+
+    resetPage();
+  };
+
   window.form = {
     mapPinMain,
     adForm,
@@ -72,6 +118,11 @@
     fieldTypeChangeHandler,
     fieldRoomNumberChangeHandler,
     fieldTimeInChangeHandler,
-    fieldTimeOutChangeHandler
+    fieldTimeOutChangeHandler,
+    submitFormHandler,
+    formElements,
+    adFormReset,
+    deactivateMap,
+    resetPage
   };
 })();
