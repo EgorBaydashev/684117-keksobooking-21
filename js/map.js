@@ -1,6 +1,21 @@
 'use strict';
 
 (function () {
+  const filterFormChangeHandler = window.debounce.debounce(function (data) {
+    window.form.removePins();
+    window.card.cardRemoveHandler();
+
+    window.pin.renderPins(data);
+  });
+
+  const successHandler = function (data) {
+    window.pin.renderPins(data);
+
+    window.form.mapFilters.addEventListener('change', function () {
+      filterFormChangeHandler(data);
+    });
+  };
+
   const activateMap = function () {
     window.main.map.classList.remove('map--faded');
     window.form.adForm.classList.remove('ad-form--disabled');
@@ -11,7 +26,7 @@
     window.form.mapPinMain.removeEventListener('keydown', pinEnterPressHandler);
     window.main.enableItems(window.form.formElements);
     window.form.setAddress();
-    window.backend.load(window.pin.successHandler, window.message.errorHandler);
+    window.backend.load(successHandler, window.message.errorHandler);
     window.form.validateRooms();
     window.form.validateMinPrice();
     window.form.adForm.addEventListener('submit', window.form.submitFormHandler);

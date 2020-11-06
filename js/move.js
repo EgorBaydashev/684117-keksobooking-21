@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  const PIN_X_MIN = 0;
+  const PIN_X_MAX = 1200;
+  const PIN_Y_MIN = 130;
+  const PIN_Y_MAX = 630;
+
   const moveMainPin = function (evt) {
     let startCoords = {
       x: evt.clientX,
@@ -10,10 +15,10 @@
     const mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
 
-      let minCoordsX = window.data.PIN_X_MIN - window.pin.PIN_X_OFFSET / 2;
-      let maxCoordsX = window.data.PIN_X_MAX - window.pin.PIN_X_OFFSET / 2;
-      let minCoordsY = window.data.PIN_Y_MIN - window.pin.PIN_Y_OFFSET;
-      let maxCoordsY = window.data.PIN_Y_MAX - window.pin.PIN_Y_OFFSET;
+      let minCoordsX = PIN_X_MIN - window.pin.PIN_X_OFFSET / 2;
+      let maxCoordsX = PIN_X_MAX - window.pin.PIN_X_OFFSET / 2;
+      let minCoordsY = PIN_Y_MIN - window.pin.PIN_Y_OFFSET;
+      let maxCoordsY = PIN_Y_MAX - window.pin.PIN_Y_OFFSET;
 
       let shift = {
         x: startCoords.x - moveEvt.clientX,

@@ -7,7 +7,7 @@
   const mapPinMain = document.querySelector('.map__pin--main');
   const adForm = document.querySelector('.ad-form');
   const formElements = document.querySelectorAll('.map__filter, fieldset');
-  const mapFilters = window.main.map.querySelector('.map__filters');
+  const mapFilters = document.querySelector('.map__filters');
   const adFormReset = adForm.querySelector('.ad-form__reset');
   const fieldAddress = adForm.querySelector('#address');
   const fieldRoomNumber = adForm.querySelector('#room_number');
@@ -110,6 +110,7 @@
   window.form = {
     mapPinMain,
     adForm,
+    mapFilters,
     fieldTimeIn,
     fieldTimeOut,
     setAddress,
@@ -122,6 +123,7 @@
     submitFormHandler,
     formElements,
     adFormReset,
+    removePins,
     deactivateMap,
     resetPage
   };
