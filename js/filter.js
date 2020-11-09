@@ -3,10 +3,10 @@
 (function () {
   const MAX_FILTERED_ADS = 5;
 
-  const housingType = document.querySelector('#housing-type');
-  const housingPrice = document.querySelector('#housing-price');
-  const housingRooms = document.querySelector('#housing-rooms');
-  const housingGuests = document.querySelector('#housing-guests');
+  const housingType = document.querySelector(`#housing-type`);
+  const housingPrice = document.querySelector(`#housing-price`);
+  const housingRooms = document.querySelector(`#housing-rooms`);
+  const housingGuests = document.querySelector(`#housing-guests`);
 
   let priceToRoom = {
     low: {
@@ -23,29 +23,27 @@
     }
   };
 
-  const filterHousing = function (data, filter) {
-    if (filter.value === 'any') {
+  const filterHousing = (data, filter) => {
+    if (filter.value === `any`) {
       return true;
     }
     return data.toString() === filter.value;
   };
 
-  const filterHousingPrice = function (data, filter) {
-    if (filter.value === 'any') {
+  const filterHousingPrice = (data, filter) => {
+    if (filter.value === `any`) {
       return true;
     }
     return data >= priceToRoom[filter.value].min && data <= priceToRoom[filter.value].max;
   };
 
-  const filterHousingCheckbox = function (data) {
-    let housingCheckbox = document.querySelectorAll('.map__checkbox:checked');
+  const filterHousingCheckbox = (data) => {
+    let housingCheckbox = document.querySelectorAll(`.map__checkbox:checked`);
 
-    return Array.from(housingCheckbox).every(function (feature) {
-      return data.indexOf(feature.value) >= 0;
-    });
+    return Array.from(housingCheckbox).every((feature) => data.indexOf(feature.value) >= 0);
   };
 
-  const filterData = function (ads) {
+  const filterData = (ads) => {
     let filteredAdverts = [];
     for (let i = 0; i < ads.length; i++) {
       if (filterHousing(ads[i].offer.type, housingType) &&

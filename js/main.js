@@ -1,17 +1,13 @@
 'use strict';
 
 (function () {
-  const getRandomNumber = function (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
+  const getRandomNumber = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-  const getRandomValueFromArray = function (arr) {
-    return arr[getRandomNumber(0, arr.length - 1)];
-  };
+  const getRandomValueFromArray = (arr) => arr[getRandomNumber(0, arr.length - 1)];
 
-  const map = document.querySelector('.map');
+  const map = document.querySelector(`.map`);
 
-  const getNoun = function (number, one, two, many) {
+  const getNoun = (number, one, two, many) => {
     number = Math.abs(number);
     number %= 100;
     if (number >= 5 && number <= 20) {
@@ -27,16 +23,21 @@
     return number + many;
   };
 
-  const disableItems = function (items) {
+  const disableItems = (items) => {
     for (let i = 0; i < items.length; i++) {
-      items[i].setAttribute('disabled', '');
+      items[i].setAttribute(`disabled`, ``);
     }
   };
 
-  const enableItems = function (items) {
+  const enableItems = (items) => {
     for (let i = 0; i < items.length; i++) {
-      items[i].removeAttribute('disabled', '');
+      items[i].removeAttribute(`disabled`, ``);
     }
+  };
+
+  const Key = {
+    ESCAPE: `Escape`,
+    ENTER: `Enter`
   };
 
   window.main = {
@@ -45,6 +46,7 @@
     map,
     disableItems,
     enableItems,
-    getNoun
+    getNoun,
+    Key
   };
 })();

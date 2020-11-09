@@ -6,13 +6,13 @@
   const PIN_Y_MIN = 130;
   const PIN_Y_MAX = 630;
 
-  const moveMainPin = function (evt) {
+  const moveMainPin = (evt) => {
     let startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
 
-    const mouseMoveHandler = function (moveEvt) {
+    const mouseMoveHandler = (moveEvt) => {
       moveEvt.preventDefault();
 
       let minCoordsX = PIN_X_MIN - window.pin.PIN_X_OFFSET / 2;
@@ -48,15 +48,15 @@
       window.form.setAddress();
     };
 
-    const mouseUpHandler = function (upEvt) {
+    const mouseUpHandler = (upEvt) => {
       upEvt.preventDefault();
 
-      document.removeEventListener('mousemove', mouseMoveHandler);
-      document.removeEventListener('mouseup', mouseUpHandler);
+      document.removeEventListener(`mousemove`, mouseMoveHandler);
+      document.removeEventListener(`mouseup`, mouseUpHandler);
     };
 
-    document.addEventListener('mousemove', mouseMoveHandler);
-    document.addEventListener('mouseup', mouseUpHandler);
+    document.addEventListener(`mousemove`, mouseMoveHandler);
+    document.addEventListener(`mouseup`, mouseUpHandler);
   };
 
   window.move = {
