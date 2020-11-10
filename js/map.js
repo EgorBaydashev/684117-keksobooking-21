@@ -30,6 +30,8 @@ const activateMap = () => {
   window.form.validateMinPrice();
   window.form.adForm.addEventListener(`submit`, window.form.submitFormHandler);
   window.form.adFormReset.addEventListener(`click`, window.form.resetPage);
+  window.form.avatarSelection.addEventListener(`change`, window.preview.loadAvatarHandler);
+  window.form.previewSelection.addEventListener(`change`, window.preview.loadPhotosHandler);
 };
 
 const pinClickHandler = (evt) => {

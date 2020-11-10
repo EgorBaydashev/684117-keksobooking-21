@@ -5,6 +5,8 @@ const PIN_MAIN_Y = 375;
 
 const mapPinMain = document.querySelector(`.map__pin--main`);
 const adForm = document.querySelector(`.ad-form`);
+const avatarSelection = adForm.querySelector(`.ad-form-header__input`);
+const previewSelection = adForm.querySelector(`.ad-form__input`);
 const formElements = document.querySelectorAll(`.map__filter, fieldset`);
 const mapFilters = document.querySelector(`.map__filters`);
 const adFormReset = adForm.querySelector(`.ad-form__reset`);
@@ -83,6 +85,8 @@ const deactivateMap = () => {
   setPinMainDefault();
   adForm.removeEventListener(`submit`, submitFormHandler);
   adFormReset.removeEventListener(`click`, resetPage);
+  avatarSelection.removeEventListener(`change`, window.preview.loadAvatarHandler);
+  previewSelection.removeEventListener(`change`, window.preview.loadPhotosHandler);
 };
 
 const setPinMainDefault = () => {
@@ -98,6 +102,7 @@ const resetPage = () => {
   window.card.cardRemoveHandler();
   deactivateMap();
   removePins();
+  window.preview.resetPreviews();
 };
 
 const submitFormHandler = (evt) => {
@@ -111,6 +116,8 @@ const submitFormHandler = (evt) => {
 window.form = {
   mapPinMain,
   adForm,
+  avatarSelection,
+  previewSelection,
   mapFilters,
   fieldTimeIn,
   fieldTimeOut,

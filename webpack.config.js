@@ -8,6 +8,7 @@ module.exports = {
     `./js/pin.js`,
     `./js/message.js`,
     `./js/backend.js`,
+    `./js/preview.js`,
     `./js/form.js`,
     `./js/move.js`,
     `./js/debounce.js`,
